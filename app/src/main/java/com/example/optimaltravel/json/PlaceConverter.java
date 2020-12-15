@@ -9,21 +9,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 public class PlaceConverter {
 
     @RequiresApi(api = Build.VERSION_CODES.R)
-    public static List<String> placesListFromJson(JSONObject jsonObject) throws JSONException, IOException {
+    public  void placesListFromJson(HashMap<String, String> map, List<String> list) throws JSONException, IOException {
+        JSONObject jsonObject = JsonParser.getJson(list);
         JSONArray placesIDList = (JSONArray) jsonObject.get("geocoded_waypoints");
-        List<String> optimalTravel = new LinkedList<>();
+
         for (int i = 0; i < placesIDList.length(); ++i) {
             JSONObject record = placesIDList.getJSONObject(i);
             String place = record.getString("place_id");
-            optimalTravel.add(place);
+            //optimalTravel.add(place);
+            list.set(i, map.get(place));
         }
-        return optimalTravel;
+
+      // return list;
     }
 }

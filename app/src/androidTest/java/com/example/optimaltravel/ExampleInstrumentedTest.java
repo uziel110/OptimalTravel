@@ -31,11 +31,9 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         JSONObject p;
         try {
-            p = JsonParser.getJson(List.of("Elad", "Jerusalem"));
-            List<String> placesIDList = PlaceConverter.placesListFromJson(p);
-            long a = 4;
+         String Ass;
         }
-        catch (IOException | JSONException e )
+        catch (Exception e  )
         {
             Log.i("sasdas",e.getMessage());
         }

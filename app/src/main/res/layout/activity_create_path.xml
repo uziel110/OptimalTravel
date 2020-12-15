@@ -7,13 +7,15 @@
     tools:context=".UI.CreatePath"
     android:orientation="vertical">
 
-    <EditText
+    <Button
         android:id="@+id/etAddAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:editable="false"
         android:inputType="textPersonName"
         android:text="Name"
+        android:onClick="Shit"
         tools:layout_editor_absoluteX="97dp"
         tools:layout_editor_absoluteY="79dp" />
 
@@ -30,8 +32,9 @@
         android:id="@+id/bCalculateRoute"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Shit"
-        android:onClick="Shit" />
+        android:onClick="runParse"
+        android:text="click"
+       />
 
 
 </LinearLayout>
