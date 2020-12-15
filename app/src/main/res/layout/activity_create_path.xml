@@ -12,9 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:editable="false"
-        android:inputType="textPersonName"
-        android:text="Name"
+        android:text="@string/stopText"
         android:onClick="Shit"
         tools:layout_editor_absoluteX="97dp"
         tools:layout_editor_absoluteY="79dp" />
@@ -33,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="runParse"
-        android:text="click"
+        android:text="@string/calculateText"
        />
 
 

@@ -13,6 +13,8 @@ import android.widget.ListView;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.optimaltravel.R;
 import com.example.optimaltravel.json.PlaceConverter;
@@ -26,7 +28,6 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -39,7 +40,8 @@ public class CreatePath extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     Button btSave;
     HashMap<String, String> map;
-    List<String> ls=   new LinkedList<String>();
+    List<String> ls = new LinkedList<String>();
+    LiveData<Boolean> liveData;
 
 
     @SuppressLint("ResourceType")
@@ -50,10 +52,10 @@ public class CreatePath extends AppCompatActivity {
         this.setFinishOnTouchOutside(false);
         listView = (ListView) findViewById(R.id.lvAddress);
 
-        adapter = new ArrayAdapter<String>(this, R.id.lvAddress,ls);
+        adapter = new ArrayAdapter<String>(this, R.id.lvAddress, ls);
         btSave = findViewById(R.id.bCalculateRoute);
         listView.setAdapter(adapter);
-       // this.setContentView(listView);
+        // this.setContentView(listView);
         map = new HashMap<String, String>();
 
 
@@ -61,12 +63,18 @@ public class CreatePath extends AppCompatActivity {
         // return after the user has made a selection.
 
 
-
-         adapter = new ArrayAdapter<String>(this,
-                R.layout.activity_create_path, ls);
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, ls);
 
         ListView listView = (ListView) findViewById(R.id.lvAddress);
         listView.setAdapter(adapter);
+        PlaceConverter.mld.observe(this,new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isEnable) {
+                adapter.notifyDataSetChanged();
+
+            }
+        });
 
     }
 
@@ -111,15 +119,16 @@ public class CreatePath extends AppCompatActivity {
 //        ArrayList<String> list = new ArrayList<String>();
 //        for (int i = 0; i < adapter.getCount(); i++)
 //            list.add(adapter.getItem(i));
-        new  Thread(){
-            public void run(){
+        new Thread() {
+            public void run() {
                 try {
-                    PlaceConverter.placesListFromJson(map,ls);
+                    PlaceConverter.placesListFromJson(map, ls);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                adapter.notifyDataSetChanged();
             }
         }.start();
 

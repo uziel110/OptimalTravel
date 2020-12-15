@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Optimal Travel</string>
+    <string name="stopText">הוסף עצירה</string>
+    <string name="calculateText">חשב מסלול</string>
 </resources>
