@@ -1,5 +1,4 @@
 package com.example.optimaltravel;
-
 import android.content.Context;
 import android.util.Log;
 
@@ -7,7 +6,10 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.optimaltravel.json.JsonParser;
+import com.example.optimaltravel.json.PlaceConverter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,10 +31,11 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         JSONObject p;
         try {
-            p = JsonParser.getJson(List.of(""));
+            p = JsonParser.getJson(List.of("Elad", "Jerusalem"));
+            List<String> placesIDList = PlaceConverter.placesListFromJson(p);
             long a = 4;
         }
-        catch (IOException e )
+        catch (IOException | JSONException e )
         {
             Log.i("sasdas",e.getMessage());
         }
