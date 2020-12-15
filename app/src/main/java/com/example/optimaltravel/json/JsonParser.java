@@ -14,13 +14,13 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 
 public class JsonParser {
-
+    
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static JSONObject getJson(List<String> wayPoints) throws IOException {
+        JSONObject json = null;
         // List.of("bab","baba");
         String begin = "https://maps.googleapis.com/maps/api/directions/json?origin=";
 
@@ -30,7 +30,7 @@ public class JsonParser {
 
 
 
-        InputStream is = new URL(link).openStream();
+        InputStream is = new URL("https://maps.googleapis.com/maps/api/directions/json?origin=afula&destination=Tel-Aviv&key=AIzaSyBUPxQMO2iI0DS_WTeetlcND9mpWaUCyyY").openStream();
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             //Object[] ff = rd.lines().toArray();
@@ -42,10 +42,10 @@ public class JsonParser {
 
             while (line!=null && !line.equals("   ],"))
             {
-                jsonText+= line;
+                jsonText+= line + "\n";
                 line = rd.readLine();
             }
-            JSONObject json = new JSONObject(jsonText+="]}");
+            json = new JSONObject(jsonText+="]}");
 
 
 
