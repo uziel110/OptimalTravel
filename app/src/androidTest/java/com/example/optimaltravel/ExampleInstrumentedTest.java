@@ -27,7 +27,7 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         try {
-            JsonParser.getJson("https://maps.googleapis.com/maps/api/directions/json?origin=afula&destination=afula&waypoints=optimize:true|natanya+teena|tel-aviv|hadera&key=AIzaSyBUPxQMO2iI0DS_WTeetlcND9mpWaUCyyY");
+            JsonParser.getJson("https://maps.googleapis.com/maps/api/directions/json?origin=afula&destination=Tel-Aviv&key=AIzaSyBUPxQMO2iI0DS_WTeetlcND9mpWaUCyyY");
         }
         catch (IOException e )
         {

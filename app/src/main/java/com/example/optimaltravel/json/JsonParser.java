@@ -5,40 +5,69 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
+import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JsonParser {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void getJson(String waypoints) throws IOException {
+    public static JSONObject getJson(List<String> wayPoints) throws IOException {
+        // List.of("bab","baba");
+        String begin = "https://maps.googleapis.com/maps/api/directions/json?origin=";
 
-     InputStream is = new URL(waypoints).openStream();
-     try {
-      BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-      Object[] ff= rd.lines().toArray();
-      String jsonText = "readAll(rd);";
-      JSONObject json = new JSONObject(jsonText);
+        String origin = wayPoints.get(0);
 
-     } catch (JSONException e) {
-      e.printStackTrace();
-     } finally {
-      is.close();
-     }
+        String end = "&key=AIzaSyBUPxQMO2iI0DS_WTeetlcND9mpWaUCyyY";
 
+
+
+        InputStream is = new URL(link).openStream();
+        try {
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            //Object[] ff = rd.lines().toArray();
+            //  String s= rd.lines().collect(Collectors.joining());
+            String jsonText = "";
+            String line = rd.readLine();
+
+
+
+            while (line!=null && !line.equals("   ],"))
+            {
+                jsonText+= line;
+                line = rd.readLine();
+            }
+            JSONObject json = new JSONObject(jsonText+="]}");
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            is.close();
+        }
+    return json;
+    }
+
+    private static String readAll(Reader rd) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1) {
+            sb.append((char) cp);
+        }
+        return sb.toString();
     }
 
     private Location getCurrentLocation() {
-     return null;
+        return null;
     }
 }
 //   LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
