@@ -27,11 +27,11 @@
         tools:layout_editor_absoluteX="94dp"></ListView>
 
     <Button
-            android:id="@+id/bCalculateRoute"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
+        android:id="@+id/bCalculateRoute"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Shit"
+        android:onClick="Shit" />
 
 
 </LinearLayout>
