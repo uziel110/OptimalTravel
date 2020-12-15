@@ -43,6 +43,6 @@ public class CreatePath extends AppCompatActivity {
         // Start the autocomplete intent.
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                 .build(this);
-        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);;
     }
 }
