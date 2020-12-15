@@ -30,6 +30,7 @@ public class ExampleInstrumentedTest {
         JSONObject p;
         try {
             p = JsonParser.getJson(List.of(""));
+            long a = 4;
         }
         catch (IOException e )
         {
