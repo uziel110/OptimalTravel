@@ -1,9 +1,11 @@
-package com.example.optimaltravel;
+package com.example.optimaltravel.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.Image;
 import android.os.Bundle;
+
+import com.example.optimaltravel.R;
 
 public class MainActivity extends AppCompatActivity {
 
