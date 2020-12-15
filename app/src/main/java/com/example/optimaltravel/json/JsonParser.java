@@ -20,7 +20,7 @@ public class JsonParser {
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     public static JSONObject getJson(List<String> wayPoints) throws IOException {
-        wayPoints=List.of("afula", "tel-aviv","afula");
+        //wayPoints=List.of("afula", "tel-aviv","afula");
         JSONObject json = null;
         String begin = "https://maps.googleapis.com/maps/api/directions/json?origin=";
         int size = wayPoints.size();

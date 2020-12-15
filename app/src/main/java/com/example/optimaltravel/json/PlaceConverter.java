@@ -16,7 +16,7 @@ import java.util.List;
 public class PlaceConverter {
 
     @RequiresApi(api = Build.VERSION_CODES.R)
-    public  void placesListFromJson(HashMap<String, String> map, List<String> list) throws JSONException, IOException {
+    public static void placesListFromJson(HashMap<String, String> map, List<String> list) throws JSONException, IOException {
         JSONObject jsonObject = JsonParser.getJson(list);
         JSONArray placesIDList = (JSONArray) jsonObject.get("geocoded_waypoints");
 

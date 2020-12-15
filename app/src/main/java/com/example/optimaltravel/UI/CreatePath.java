@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class CreatePath extends AppCompatActivity {
@@ -38,6 +39,7 @@ public class CreatePath extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     Button btSave;
     HashMap<String, String> map;
+    List<String> ls=   new LinkedList<String>();
 
 
     @SuppressLint("ResourceType")
@@ -46,14 +48,25 @@ public class CreatePath extends AppCompatActivity {
         super.onCreate(saved);
         setContentView(R.layout.activity_create_path);
         this.setFinishOnTouchOutside(false);
-        listView = findViewById(R.id.lvAddress);
-        adapter = new ArrayAdapter<String>(this, R.id.lvAddress);
+        listView = (ListView) findViewById(R.id.lvAddress);
+
+        adapter = new ArrayAdapter<String>(this, R.id.lvAddress,ls);
         btSave = findViewById(R.id.bCalculateRoute);
+        listView.setAdapter(adapter);
+       // this.setContentView(listView);
         map = new HashMap<String, String>();
 
 
         // Set the fields to specify which types of place data to
         // return after the user has made a selection.
+
+
+
+         adapter = new ArrayAdapter<String>(this,
+                R.layout.activity_create_path, ls);
+
+        ListView listView = (ListView) findViewById(R.id.lvAddress);
+        listView.setAdapter(adapter);
 
     }
 
@@ -76,7 +89,7 @@ public class CreatePath extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
                 map.put(place.getId(), place.getAddress());
-                adapter.add(place.getAddress());
+                ls.add(place.getAddress());
                 adapter.notifyDataSetChanged();
                 Log.i("shit", "Place: " + place.getAddress() + ", " + place.getId());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
@@ -95,15 +108,21 @@ public class CreatePath extends AppCompatActivity {
     public void runParse(View view) throws IOException, JSONException {
 
 
-        ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < adapter.getCount(); i++)
-            list.add(adapter.getItem(i));
+//        ArrayList<String> list = new ArrayList<String>();
+//        for (int i = 0; i < adapter.getCount(); i++)
+//            list.add(adapter.getItem(i));
+        new  Thread(){
+            public void run(){
+                try {
+                    PlaceConverter.placesListFromJson(map,ls);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
 
-
-        PlaceConverter pc = new PlaceConverter();
-
-
-        pc.placesListFromJson(map, list);
 
     }
 
