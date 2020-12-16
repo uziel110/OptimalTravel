@@ -76,7 +76,6 @@ public class CreatePath extends AppCompatActivity {
         bAddStop = findViewById(R.id.bAddStop);
         bCalculateRoutes = findViewById(R.id.bCalculateRoute);
         bShowMap=findViewById(R.id.btShowMap);
-        bShowMap.setEnabled(false);
         listView.setAdapter(adapter);
         map = new HashMap<String, String>();
         currentLocation = getCurrentLocation();
@@ -95,7 +94,6 @@ public class CreatePath extends AppCompatActivity {
             public void onChanged(Boolean isEnable) {
                 bAddStop.setEnabled(true);
                 bCalculateRoutes.setEnabled(true);
-                bShowMap.setEnabled(true);
                 adapter.notifyDataSetChanged();
                 route.setPoint(pointNamesList);
                 repository.insertRoute(route);
@@ -168,7 +166,6 @@ public class CreatePath extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.R)
     public void runParse(View view) throws IOException, JSONException {
         if (pointNamesList.size() < 3) { // Not need to optimize
-            bShowMap.setEnabled(true);
             return;
         }
         bCalculateRoutes.setEnabled(false);
