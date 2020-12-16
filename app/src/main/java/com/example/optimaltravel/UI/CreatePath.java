@@ -44,9 +44,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CreatePath extends AppCompatActivity {
-    private static int AUTOCOMPLETE_REQUEST_CODE = 1;
     public static List<String> keysList = new LinkedList<String>();
     public static HashMap<String, LatLng> keyMap = new HashMap<String, LatLng>();
+    private static int AUTOCOMPLETE_REQUEST_CODE = 1;
     Repository repository = new Repository();
     Route route = new Route();
     ListView listView = null;
@@ -191,16 +191,16 @@ public class CreatePath extends AppCompatActivity {
 
     public void OpenInGooleMaps(View view) {
         // Space+Needle+Seattle+WAPike+Place+Market+Seattle+WA&travelmode=bicycling"
+        if (pointNamesList.size() == 0)
+            return;
         String origin = "https://www.google.com/maps/dir/?api=1&origin=" + pointNamesList.get(0) + "&destination=" + pointNamesList.get(0);
         String wayP = "&waypoints=";
 
         for (int i = 1; i < pointNamesList.size(); ++i)
             wayP += "|" + pointNamesList.get(i);
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(origin + wayP+"&travelmode=driving"));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(origin + wayP + "&travelmode=driving"));
         startActivity(browserIntent);
     }
-
-
 
 
 }
