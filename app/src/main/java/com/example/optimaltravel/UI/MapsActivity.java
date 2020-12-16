@@ -62,7 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (String it : CreatePath.keysList) {
             points.add(new MarkerOptions().position(CreatePath.keyMap.get(it)));
         }
-        mMap.setMyLocationEnabled(true);
+        //mMap.setMyLocationEnabled(true);
         MarkerOptions firstLocation = points.get(0);
         firstLocation.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mMap.addMarker(firstLocation);
