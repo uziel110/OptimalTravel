@@ -35,11 +35,7 @@
         <activity
             android:name=".UI.MapsActivity"
             android:label="@string/title_activity_maps">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
 
 
@@ -47,7 +43,13 @@
         <activity android:name=".UI.CreatePath">
 
         </activity>
-        <activity android:name=".UI.MainActivity"></activity>
+        <activity android:name=".UI.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
