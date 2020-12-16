@@ -83,8 +83,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLngBounds bounds = builder.build();
         int padding = 140;
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        mMap.setMaxZoomPreference(8.0f);
+        //mMap.setMaxZoomPreference(15.0f);
         googleMap.animateCamera(cu);
+        //mMap.resetMinMaxZoomPreference();
 
     }
 }
