@@ -1,7 +1,11 @@
 package com.example.optimaltravel.UI;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +28,10 @@ import com.example.optimaltravel.json.PlaceConverter;
 import com.example.optimaltravel.repo.Repository;
 import com.example.optimaltravel.util.Utils;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
@@ -38,6 +45,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class CreatePath extends AppCompatActivity {
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
@@ -67,8 +76,8 @@ public class CreatePath extends AppCompatActivity {
         bCalculateRoutes = findViewById(R.id.bCalculateRoute);
         listView.setAdapter(adapter);
         map = new HashMap<String, String>();
-        currentLocation = Utils.getCurrentLocation(this);
-        //Toast.makeText(getBaseContext(), currentLocation.get(0) + " : " + currentLocation.get(1), Toast.LENGTH_LONG);
+        currentLocation = getCurrentLocation();
+        Toast.makeText(getBaseContext(), currentLocation.get(0) + " : " + currentLocation.get(1), Toast.LENGTH_LONG);
         // Set the fields to specify which types of place data to
         // return after the user has made a selection.
 
@@ -88,6 +97,35 @@ public class CreatePath extends AppCompatActivity {
                 repository.insertRoute(route);
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.R)
+    @SuppressLint("RestrictedApi")
+    public List<Double> getCurrentLocation() {
+        FusedLocationProviderClient fusedLocationProviderClient;
+        final double[] lat = new double[1];
+        final double[] longt = new double[1];
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                fusedLocationProviderClient.getLastLocation()
+                        .addOnSuccessListener(new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                if (location != null) {
+                                    lat[0] = location.getLatitude();
+                                    longt[0] = location.getLongitude();
+                                    //Toast.makeText(activity.getBaseContext(), lat + " , " + longt, Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+            } else {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 5);
+            }
+        }
+
+        return List.of(lat[0], longt[0]);
     }
 
     public void googleAutoComplete(View view) {
@@ -125,7 +163,6 @@ public class CreatePath extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     public void runParse(View view) throws IOException, JSONException {
-        Toast.makeText(getBaseContext(), currentLocation.get(0) + " : " + currentLocation.get(1), Toast.LENGTH_LONG);
         if (pointNamesList.size() < 4) { // Not need to optimize
             return;
         }

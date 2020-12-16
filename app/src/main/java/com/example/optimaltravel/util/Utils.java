@@ -40,7 +40,7 @@ public class Utils {
                             }
                         });
             } else {
-                //requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
+                //activity.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
             }
         }
 
