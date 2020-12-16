@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
@@ -49,6 +51,7 @@ public class CreatePath extends AppCompatActivity {
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
     Repository repository = new Repository();
     Route route = new Route();
+
     ListView listView = null;
     @SuppressLint("ResourceType")
     ArrayAdapter<String> adapter;
@@ -64,37 +67,60 @@ public class CreatePath extends AppCompatActivity {
     @Override
     public void onCreate(Bundle saved) {
         super.onCreate(saved);
+
         setContentView(R.layout.activity_create_path);
         this.setFinishOnTouchOutside(false);
         listView = (ListView) findViewById(R.id.lvAddress);
         adapter = new ArrayAdapter<String>(this, R.id.lvAddress, pointNamesList);
         bAddStop = findViewById(R.id.bAddStop);
         bCalculateRoutes = findViewById(R.id.bCalculateRoute);
-        bShowMap = findViewById(R.id.btShowMap);
+       // bShowMap = findViewById(R.id.btShowMap);
         listView.setAdapter(adapter);
         map = new HashMap<String, String>();
         currentLocation = getCurrentLocation();
         Toast.makeText(getBaseContext(), currentLocation.get(0) + " : " + currentLocation.get(1), Toast.LENGTH_LONG);
         // Set the fields to specify which types of place data to
-        // return after the user has made a selection.
+        // return after the user has made a selection.t
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position,
+//                                    long id) {
+//                Log.i("click", "Click on list");
+//                // setup the alert builder
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+//                builder.setTitle("AlertDialog");
+//                builder.setMessage("Would you like to continue learning how to use Android alerts?");
+//                // add the buttons
+//                builder.setPositiveButton("Continue", null);
+//                builder.setNegativeButton("Cancel", null);
+//                // create and show the alert dialog
+//                AlertDialog dialog = builder.create();
+//                dialog.show();
+//            }
+//
+//        }
+//    );
 
 
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, pointNamesList);
+    adapter =new ArrayAdapter<String>(this,
+    android.R.layout.simple_list_item_1,pointNamesList);
 
-        ListView listView = (ListView) findViewById(R.id.lvAddress);
+    ListView listView = (ListView) findViewById(R.id.lvAddress);
         listView.setAdapter(adapter);
-        PlaceConverter.mld.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isEnable) {
-                bAddStop.setEnabled(true);
-                bCalculateRoutes.setEnabled(true);
-                adapter.notifyDataSetChanged();
-                route.setPoint(pointNamesList);
-                repository.insertRoute(route);
-            }
-        });
+        PlaceConverter.mld.observe(this,new Observer<Boolean>()
+
+    {
+        @Override
+        public void onChanged (Boolean isEnable){
+        bAddStop.setEnabled(true);
+        bCalculateRoutes.setEnabled(true);
+        adapter.notifyDataSetChanged();
+        route.setPoint(pointNamesList);
+        repository.insertRoute(route);
+        OpenInGooleMaps();
     }
+    });
+}
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @SuppressLint("RestrictedApi")
@@ -176,6 +202,7 @@ public class CreatePath extends AppCompatActivity {
                 }
             }
         }.start();
+
     }
 
     public void btShowMapClick(View view) {
@@ -189,7 +216,7 @@ public class CreatePath extends AppCompatActivity {
         keysList.clear();
     }
 
-    public void OpenInGooleMaps(View view) {
+    public void OpenInGooleMaps() {
         // Space+Needle+Seattle+WAPike+Place+Market+Seattle+WA&travelmode=bicycling"
         if (pointNamesList.size() == 0)
             return;
