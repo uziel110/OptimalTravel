@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -145,5 +146,12 @@ public class CreatePath extends AppCompatActivity {
 
     public void btShowmapClick(View view) {
         startActivity(new Intent(this, MapsActivity.class));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        keyMap.clear();
+        keysList.clear();
     }
 }
