@@ -66,9 +66,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MarkerOptions firstLocation = points.get(0);
         firstLocation.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mMap.addMarker(firstLocation);
+        points.get(points.size()-1).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         for (int i = 1; i < points.size(); i++) {
             mMap.addMarker(points.get(i));
         }
+
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(firstLocation.getPosition()));
         //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(firstLocation.getPosition(), 13.0f));
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
