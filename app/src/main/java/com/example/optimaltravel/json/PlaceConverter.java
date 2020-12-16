@@ -3,7 +3,6 @@ package com.example.optimaltravel.json;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONArray;
@@ -12,11 +11,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 public class PlaceConverter {
-       public static MutableLiveData  mld = new MutableLiveData<>();
+    public static MutableLiveData mld = new MutableLiveData<>();
     @RequiresApi(api = Build.VERSION_CODES.R)
     public static void placesListFromJson(HashMap<String, String> map, List<String> list) throws JSONException, IOException {
         JSONObject jsonObject = JsonParser.getJson(list);
@@ -30,6 +28,6 @@ public class PlaceConverter {
         }
         mld.postValue(true);
 
-      // return list;
+        // return list;
     }
 }

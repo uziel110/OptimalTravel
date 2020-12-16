@@ -34,8 +34,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CreatePath extends AppCompatActivity {
-    ListView listView = null;
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
+    ListView listView = null;
     @SuppressLint("ResourceType")
     ArrayAdapter<String> adapter;
     Button btSave;
@@ -68,7 +68,7 @@ public class CreatePath extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.lvAddress);
         listView.setAdapter(adapter);
-        PlaceConverter.mld.observe(this,new Observer<Boolean>() {
+        PlaceConverter.mld.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isEnable) {
                 adapter.notifyDataSetChanged();
@@ -78,7 +78,7 @@ public class CreatePath extends AppCompatActivity {
 
     }
 
-    public void Shit(View view) {
+    public void googleAutoComplete(View view) {
         String api = "AIzaSyBUPxQMO2iI0DS_WTeetlcND9mpWaUCyyY";
         Places.initialize(this, api);
         List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS);
@@ -99,7 +99,7 @@ public class CreatePath extends AppCompatActivity {
                 map.put(place.getId(), place.getAddress());
                 ls.add(place.getAddress());
                 adapter.notifyDataSetChanged();
-                Log.i("shit", "Place: " + place.getAddress() + ", " + place.getId());
+                Log.i("shit", "Place: " + place.getAddress() +", " + place.getId());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
@@ -114,11 +114,10 @@ public class CreatePath extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     public void runParse(View view) throws IOException, JSONException {
-
-
-//        ArrayList<String> list = new ArrayList<String>();
-//        for (int i = 0; i < adapter.getCount(); i++)
-//            list.add(adapter.getItem(i));
+        if (ls.size() < 4) // Not need to optimize
+        {
+            return;
+        }
         new Thread() {
             public void run() {
                 try {
@@ -128,7 +127,6 @@ public class CreatePath extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         }.start();
 
