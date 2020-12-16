@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/places_ui_default_primary"
+    android:rowCount="3"
+    android:columnCount="1"
+    android:background="@color/purple_200"
     android:orientation="vertical"
     tools:context=".UI.CreatePath">
 
     <Button
         android:id="@+id/bAddStop"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:ems="10"
         android:onClick="googleAutoComplete"
         android:text="@string/stopText"
@@ -21,30 +24,44 @@
 
     <ListView
         android:id="@+id/lvAddress"
-        android:layout_width="471dp"
+        android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:layout_marginBottom="72dp"
         android:background="@color/quantum_brown100"
         android:cacheColorHint="@color/purple_700"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:layout_editor_absoluteX="94dp"></ListView>
+        tools:layout_editor_absoluteX="94dp" />
 
-    <Button
-        android:id="@+id/btShowMap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="btShowMapClick"
-        android:text="הצג מסלול במפה"
-        app:backgroundTint="@color/quantum_bluegrey900" />
+    <GridLayout
+        android:layout_gravity="bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:background="@color/purple_200"
+        android:columnCount="2"
+        android:rowCount="1"
+        tools:context=".UI.CreatePath">
 
-    <Button
-        android:id="@+id/bCalculateRoute"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="runParse"
-        android:text="@string/calculateText"
-        app:backgroundTint="@color/quantum_bluegrey900" />
+        <Button
+            android:id="@+id/bCalculateRoute"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|bottom"
+            android:layout_marginLeft="25dp"
+            android:onClick="runParse"
+            android:text="@string/calculateText"
+            android:textColorHint="#FFFFFF"
+
+            app:backgroundTint="@color/quantum_googgreen700" />
+
+        <Button
+            android:id="@+id/btShowMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginRight="25dp"
+            android:onClick="btShowMapClick"
+            android:text="@string/pointInMap"
+            app:backgroundTint="@color/quantum_bluegrey900" />
+    </GridLayout>
 
 
 </LinearLayout>
