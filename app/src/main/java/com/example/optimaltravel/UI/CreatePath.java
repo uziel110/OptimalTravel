@@ -2,15 +2,14 @@ package com.example.optimaltravel.UI;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -23,10 +22,8 @@ import androidx.lifecycle.Observer;
 
 import com.example.optimaltravel.R;
 import com.example.optimaltravel.data.Route;
-import com.example.optimaltravel.json.JsonParser;
 import com.example.optimaltravel.json.PlaceConverter;
 import com.example.optimaltravel.repo.Repository;
-import com.example.optimaltravel.util.Utils;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -45,8 +42,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class CreatePath extends AppCompatActivity {
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
@@ -75,7 +70,7 @@ public class CreatePath extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(this, R.id.lvAddress, pointNamesList);
         bAddStop = findViewById(R.id.bAddStop);
         bCalculateRoutes = findViewById(R.id.bCalculateRoute);
-        bShowMap=findViewById(R.id.btShowMap);
+        bShowMap = findViewById(R.id.btShowMap);
         listView.setAdapter(adapter);
         map = new HashMap<String, String>();
         currentLocation = getCurrentLocation();
@@ -193,4 +188,19 @@ public class CreatePath extends AppCompatActivity {
         keyMap.clear();
         keysList.clear();
     }
+
+    public void OpenInGooleMaps(View view) {
+        // Space+Needle+Seattle+WAPike+Place+Market+Seattle+WA&travelmode=bicycling"
+        String origin = "https://www.google.com/maps/dir/?api=1&origin=" + pointNamesList.get(0) + "&destination=" + pointNamesList.get(0);
+        String wayP = "&waypoints=";
+
+        for (int i = 1; i < pointNamesList.size(); ++i)
+            wayP += "|" + pointNamesList.get(i);
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(origin + wayP));
+        startActivity(browserIntent);
+    }
+
+
+
+
 }
