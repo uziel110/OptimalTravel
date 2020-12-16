@@ -128,7 +128,7 @@ public class CreatePath extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                adapter.notifyDataSetChanged();
+
             }
         }.start();
 
