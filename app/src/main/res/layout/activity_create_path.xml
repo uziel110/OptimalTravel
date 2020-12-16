@@ -39,9 +39,7 @@
         android:layout_gravity="bottom"
         android:background="@android:color/darker_gray"
         android:columnCount="2"
-        android:rowCount="1"
         tools:context=".UI.CreatePath">
-
         <Button
             android:id="@+id/bCalculateRoute"
             android:layout_height="wrap_content"
