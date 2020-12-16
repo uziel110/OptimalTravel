@@ -45,8 +45,8 @@
         <Button
             android:id="@+id/bCalculateRoute"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|bottom"
-            android:layout_marginLeft="25dp"
+            android:layout_gravity="right|bottom"
+            android:layout_marginRight="25dp"
             android:onClick="runParse"
             android:text="@string/calculateText"
             android:textColorHint="#FFFFFF"
@@ -57,8 +57,8 @@
             android:id="@+id/btShowMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:layout_marginRight="25dp"
+            android:layout_gravity="left|bottom"
+            android:layout_marginLeft="25dp"
             android:onClick="OpenInGooleMaps"
             android:text="@string/pointInMap"
             app:backgroundTint="@color/quantum_bluegrey900" />
