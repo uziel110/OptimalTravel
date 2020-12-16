@@ -17,11 +17,11 @@ public class PlaceConverter {
     public static MutableLiveData mld = new MutableLiveData<>();
 
     @RequiresApi(api = Build.VERSION_CODES.R)
-    public static void placesListFromJson( HashMap<String, String> map, List<String> list, List<String> keysList) throws JSONException, IOException {
+    public static void placesListFromJson( HashMap<String, String> map, List<String> list, List<String> keysList ) throws JSONException, IOException {
         JSONObject jsonObject = JsonParser.getJson(keysList);
         JSONArray placesIDList = (JSONArray) jsonObject.get("geocoded_waypoints");
-
-        for (int i = 0; i < placesIDList.length(); ++i) {
+        int len= placesIDList.length();
+        for (int i = 0; i <len-1; ++i) {
             JSONObject record = placesIDList.getJSONObject(i);
             String place = record.getString("place_id");
             //optimalTravel.add(place);
