@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -61,6 +62,8 @@ public class CreatePath extends AppCompatActivity {
         bCalculateRoutes = findViewById(R.id.bCalculateRoute);
         listView.setAdapter(adapter);
         map = new HashMap<String, String>();
+
+
 
 
         // Set the fields to specify which types of place data to
