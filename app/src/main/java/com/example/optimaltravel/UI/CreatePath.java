@@ -59,6 +59,7 @@ public class CreatePath extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     Button bCalculateRoutes;
     Button bAddStop;
+    Button bShowMap;
     HashMap<String, String> map;
     List<String> pointNamesList = new LinkedList<String>();
     List<Double> currentLocation;
@@ -74,6 +75,8 @@ public class CreatePath extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(this, R.id.lvAddress, pointNamesList);
         bAddStop = findViewById(R.id.bAddStop);
         bCalculateRoutes = findViewById(R.id.bCalculateRoute);
+        bShowMap=findViewById(R.id.btShowMap);
+        bShowMap.setEnabled(false);
         listView.setAdapter(adapter);
         map = new HashMap<String, String>();
         currentLocation = getCurrentLocation();
@@ -92,6 +95,7 @@ public class CreatePath extends AppCompatActivity {
             public void onChanged(Boolean isEnable) {
                 bAddStop.setEnabled(true);
                 bCalculateRoutes.setEnabled(true);
+                bShowMap.setEnabled(true);
                 adapter.notifyDataSetChanged();
                 route.setPoint(pointNamesList);
                 repository.insertRoute(route);
