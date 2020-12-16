@@ -13,11 +13,12 @@ import android.widget.ListView;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.optimaltravel.R;
+import com.example.optimaltravel.data.Route;
 import com.example.optimaltravel.json.PlaceConverter;
+import com.example.optimaltravel.repo.Repository;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -38,13 +39,15 @@ public class CreatePath extends AppCompatActivity {
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
     public static List<String> keysList = new LinkedList<String>();
     public static HashMap<String, LatLng> keyMap = new HashMap<String, LatLng>();
+    Repository repository= new Repository();
+    Route route =new Route();
     ListView listView = null;
     @SuppressLint("ResourceType")
     ArrayAdapter<String> adapter;
     Button bCalculateRoutes;
     Button bAddStop;
     HashMap<String, String> map;
-    List<String> ls = new LinkedList<String>();
+    List<String> pointNamesList = new LinkedList<String>();
 
     @SuppressLint("ResourceType")
     @Override
@@ -53,7 +56,7 @@ public class CreatePath extends AppCompatActivity {
         setContentView(R.layout.activity_create_path);
         this.setFinishOnTouchOutside(false);
         listView = (ListView) findViewById(R.id.lvAddress);
-        adapter = new ArrayAdapter<String>(this, R.id.lvAddress, ls);
+        adapter = new ArrayAdapter<String>(this, R.id.lvAddress, pointNamesList);
         bAddStop = findViewById(R.id.bAddStop);
         bCalculateRoutes = findViewById(R.id.bCalculateRoute);
         listView.setAdapter(adapter);
@@ -65,7 +68,7 @@ public class CreatePath extends AppCompatActivity {
 
 
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, ls);
+                android.R.layout.simple_list_item_1, pointNamesList);
 
         ListView listView = (ListView) findViewById(R.id.lvAddress);
         listView.setAdapter(adapter);
@@ -75,6 +78,8 @@ public class CreatePath extends AppCompatActivity {
                 bAddStop.setEnabled(true);
                 bCalculateRoutes.setEnabled(true);
                 adapter.notifyDataSetChanged();
+                route.setPoint(pointNamesList);
+                repository.insertRoute(route);
             }
         });
     }
@@ -97,7 +102,7 @@ public class CreatePath extends AppCompatActivity {
                 map.put(place.getId(), place.getAddress());
                 keyMap.put(place.getId(), place.getLatLng());
                 keysList.add(place.getId());
-                ls.add(place.getAddress());
+                pointNamesList.add(place.getAddress());
                 adapter.notifyDataSetChanged();
                 Log.i("shit", "Place: " + place.getAddress() + ", " + place.getId());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
@@ -114,7 +119,7 @@ public class CreatePath extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     public void runParse(View view) throws IOException, JSONException {
-        if (ls.size() < 4) // Not need to optimize
+        if (pointNamesList.size() < 4) // Not need to optimize
         {
             return;
         }
@@ -123,7 +128,7 @@ public class CreatePath extends AppCompatActivity {
         new Thread() {
             public void run() {
                 try {
-                    PlaceConverter.placesListFromJson(map, ls, keysList);
+                    PlaceConverter.placesListFromJson(map, pointNamesList, keysList);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
