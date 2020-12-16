@@ -136,4 +136,11 @@ public class CreatePath extends AppCompatActivity {
     public void btShowmapClick(View view) {
         startActivity(new Intent(this, MapsActivity.class));
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        keyMap.clear();
+        keysList.clear();
+    }
 }
