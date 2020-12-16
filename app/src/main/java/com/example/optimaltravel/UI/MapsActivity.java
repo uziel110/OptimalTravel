@@ -4,6 +4,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -51,6 +53,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;// Add a marker in Sydney and move the camera
@@ -59,27 +62,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (String it : CreatePath.keysList) {
             points.add(new MarkerOptions().position(CreatePath.keyMap.get(it)));
         }
-        for (int i = 0; i < points.size(); i++) {
+        mMap.setMyLocationEnabled(true);
+        MarkerOptions firstLocation = points.get(0);
+        firstLocation.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        mMap.addMarker(firstLocation);
+        for (int i = 1; i < points.size(); i++) {
             mMap.addMarker(points.get(i));
         }
-        MarkerOptions firstLocation = points.get(0);
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(firstLocation.getPosition()));
         //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(firstLocation.getPosition(), 13.0f));
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (MarkerOptions marker : points) {
             builder.include(marker.getPosition());
         }
-       /* if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }*/
-        //mMap.setMyLocationEnabled(true);
         LatLngBounds bounds = builder.build();
         int padding = 140;
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
