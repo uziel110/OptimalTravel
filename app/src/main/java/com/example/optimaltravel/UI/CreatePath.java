@@ -19,6 +19,7 @@ import androidx.lifecycle.Observer;
 import com.example.optimaltravel.R;
 import com.example.optimaltravel.json.PlaceConverter;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
@@ -35,7 +36,8 @@ import java.util.List;
 
 public class CreatePath extends AppCompatActivity {
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
-    List<String> keysList = new LinkedList<String>();
+    public static List<String> keysList = new LinkedList<String>();
+    public static HashMap<String, LatLng> keyMap = new HashMap<String, LatLng>();
     ListView listView = null;
     @SuppressLint("ResourceType")
     ArrayAdapter<String> adapter;
@@ -80,7 +82,7 @@ public class CreatePath extends AppCompatActivity {
     public void googleAutoComplete(View view) {
         String api = "AIzaSyBUPxQMO2iI0DS_WTeetlcND9mpWaUCyyY";
         Places.initialize(this, api);
-        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS);
+        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
         // Start the autocomplete intent.
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                 .build(this);
@@ -93,6 +95,7 @@ public class CreatePath extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
                 map.put(place.getId(), place.getAddress());
+                keyMap.put(place.getId(), place.getLatLng());
                 keysList.add(place.getId());
                 ls.add(place.getAddress());
                 adapter.notifyDataSetChanged();
@@ -128,5 +131,9 @@ public class CreatePath extends AppCompatActivity {
                 }
             }
         }.start();
+    }
+
+    public void btShowmapClick(View view) {
+        startActivity(new Intent(this, MapsActivity.class));
     }
 }

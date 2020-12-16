@@ -25,6 +25,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:layout_editor_absoluteX="94dp"></ListView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="הצג מסלול במפה"
+        android:id="@+id/btShowMap"
+        android:onClick="btShowmapClick"/>
 
     <Button
         android:id="@+id/bCalculateRoute"

@@ -26,6 +26,7 @@ public class PlaceConverter {
             String place = record.getString("place_id");
             //optimalTravel.add(place);
             list.set(i, map.get(place));
+            keysList.set(i,place);
         }
         mld.postValue(true);
 
