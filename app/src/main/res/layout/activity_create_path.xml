@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:text="@string/stopText"
-        android:onClick="Shit"
+        android:onClick="googleAutoComplete"
         tools:layout_editor_absoluteX="97dp"
         tools:layout_editor_absoluteY="79dp" />
 
