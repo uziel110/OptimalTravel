@@ -186,7 +186,7 @@ public class CreatePath extends AppCompatActivity {
         }.start();
     }
 
-    public void btShowmapClick(View view) {
+    public void btShowMapClick(View view) {
         startActivity(new Intent(this, MapsActivity.class));
     }
 
