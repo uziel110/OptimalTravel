@@ -14,13 +14,14 @@
     <ListView
         android:id="@+id/lvAddress"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="400dp"
         android:background="@color/quantum_brown100"
         android:cacheColorHint="@color/purple_700"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintBottom_toTopOf="@+id/bAddStop"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.048">
+        app:layout_constraintVertical_bias="0.078"
+        tools:layout_editor_absoluteX="0dp">
 
     </ListView>
 
@@ -29,7 +30,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="244dp"
 
         android:ems="10"
         android:onClick="googleAutoComplete"
@@ -39,7 +39,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.644" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -51,6 +53,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bAddStop"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ad" />
 
     <Button
