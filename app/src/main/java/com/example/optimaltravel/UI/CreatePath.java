@@ -70,12 +70,11 @@ public class CreatePath extends AppCompatActivity {
         PlaceConverter.mld.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isEnable) {
-
+                bAddStop.setEnabled(true);
+                bCalculateRoutes.setEnabled(true);
                 adapter.notifyDataSetChanged();
-
             }
         });
-
     }
 
     public void googleAutoComplete(View view) {
@@ -116,7 +115,8 @@ public class CreatePath extends AppCompatActivity {
         {
             return;
         }
-        //bAddStop.setEnabled(false);
+        bCalculateRoutes.setEnabled(false);
+        bAddStop.setEnabled(false);
         new Thread() {
             public void run() {
                 try {
