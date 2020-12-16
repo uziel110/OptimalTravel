@@ -32,13 +32,12 @@ public class JsonParser {
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     public static JSONObject getJson( List<String> wayPoints) throws IOException {
-        //wayPoints=List.of("afula", "tel-aviv","afula");
         JSONObject json = null;
         String begin = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:";
         int size = wayPoints.size();
         String origin = wayPoints.get(0) + "&";
-        String points = "destination=place_id:" + wayPoints.get(size - 1) + "&waypoints=optimize:true";
-        for (int i = 1; i < size - 1; ++i)
+        String points = "destination=place_id:" +origin + "waypoints=optimize:true";
+        for (int i = 1; i < size; ++i)
             points += "|place_id:" + wayPoints.get(i);
         String end = "&key=AIzaSyBUPxQMO2iI0DS_WTeetlcND9mpWaUCyyY";
         String link = begin + origin + points + end;

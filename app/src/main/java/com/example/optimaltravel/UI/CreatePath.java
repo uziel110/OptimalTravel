@@ -167,7 +167,7 @@ public class CreatePath extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     public void runParse(View view) throws IOException, JSONException {
-        if (pointNamesList.size() < 4) { // Not need to optimize
+        if (pointNamesList.size() < 3) { // Not need to optimize
             return;
         }
         bCalculateRoutes.setEnabled(false);
