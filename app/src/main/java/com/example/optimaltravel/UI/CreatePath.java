@@ -35,14 +35,14 @@ import java.util.List;
 
 public class CreatePath extends AppCompatActivity {
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
+    List<String> keysList = new LinkedList<String>();
     ListView listView = null;
     @SuppressLint("ResourceType")
     ArrayAdapter<String> adapter;
-    Button btSave;
+    Button bCalculateRoutes;
+    Button bAddStop;
     HashMap<String, String> map;
     List<String> ls = new LinkedList<String>();
-    LiveData<Boolean> liveData;
-
 
     @SuppressLint("ResourceType")
     @Override
@@ -51,11 +51,10 @@ public class CreatePath extends AppCompatActivity {
         setContentView(R.layout.activity_create_path);
         this.setFinishOnTouchOutside(false);
         listView = (ListView) findViewById(R.id.lvAddress);
-
         adapter = new ArrayAdapter<String>(this, R.id.lvAddress, ls);
-        btSave = findViewById(R.id.bCalculateRoute);
+        bAddStop = findViewById(R.id.bAddStop);
+        bCalculateRoutes = findViewById(R.id.bCalculateRoute);
         listView.setAdapter(adapter);
-        // this.setContentView(listView);
         map = new HashMap<String, String>();
 
 
@@ -83,13 +82,10 @@ public class CreatePath extends AppCompatActivity {
         String api = "AIzaSyBUPxQMO2iI0DS_WTeetlcND9mpWaUCyyY";
         Places.initialize(this, api);
         List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS);
-
         // Start the autocomplete intent.
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                 .build(this);
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
-        ;
-
     }
 
     @Override
@@ -98,9 +94,10 @@ public class CreatePath extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
                 map.put(place.getId(), place.getAddress());
+                keysList.add(place.getId());
                 ls.add(place.getAddress());
                 adapter.notifyDataSetChanged();
-                Log.i("shit", "Place: " + place.getAddress() +", " + place.getId());
+                Log.i("shit", "Place: " + place.getAddress() + ", " + place.getId());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
@@ -119,10 +116,11 @@ public class CreatePath extends AppCompatActivity {
         {
             return;
         }
+        //bAddStop.setEnabled(false);
         new Thread() {
             public void run() {
                 try {
-                    PlaceConverter.placesListFromJson(map, ls);
+                    PlaceConverter.placesListFromJson(map, ls, keysList);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -130,9 +128,5 @@ public class CreatePath extends AppCompatActivity {
                 }
             }
         }.start();
-
-
     }
-
-
 }
