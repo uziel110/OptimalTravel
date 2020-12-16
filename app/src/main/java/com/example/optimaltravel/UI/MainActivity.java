@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
         // Choose authentication providers
         //new AuthUI.IdpConfig.PhoneBuilder().setDefaultCountryIso("IL").build()
         List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),new AuthUI.IdpConfig.AnonymousBuilder().build()
+                new AuthUI.IdpConfig.EmailBuilder().build()
+                ,new AuthUI.IdpConfig.AnonymousBuilder().build()
 
 
                 );
@@ -39,8 +40,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .build(),
+                        .setAvailableProviders(providers).setLogo(R.drawable.logo)                        .build(),
                 RC_SIGN_IN);
 
     }
