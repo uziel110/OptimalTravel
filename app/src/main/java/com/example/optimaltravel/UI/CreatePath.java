@@ -71,6 +71,7 @@ public class CreatePath extends AppCompatActivity {
         PlaceConverter.mld.observe(this,new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isEnable) {
+
                 adapter.notifyDataSetChanged();
 
             }
