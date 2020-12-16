@@ -62,11 +62,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (String it : CreatePath.keysList) {
             points.add(new MarkerOptions().position(CreatePath.keyMap.get(it)));
         }
+        LatLngBounds bounds = null;
+        if (points.size() == 0) {
+            return;
+        }
+
         //mMap.setMyLocationEnabled(true);
         MarkerOptions firstLocation = points.get(0);
         firstLocation.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mMap.addMarker(firstLocation);
-        points.get(points.size()-1).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        points.get(points.size() - 1).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         for (int i = 1; i < points.size(); i++) {
             mMap.addMarker(points.get(i));
         }
@@ -77,7 +82,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (MarkerOptions marker : points) {
             builder.include(marker.getPosition());
         }
-        LatLngBounds bounds = builder.build();
+
+        bounds = builder.build();
+
         int padding = 140;
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
         //mMap.setMaxZoomPreference(15.0f);
