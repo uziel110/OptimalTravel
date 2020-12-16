@@ -196,7 +196,7 @@ public class CreatePath extends AppCompatActivity {
 
         for (int i = 1; i < pointNamesList.size(); ++i)
             wayP += "|" + pointNamesList.get(i);
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(origin + wayP));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(origin + wayP+"&travelmode=driving"));
         startActivity(browserIntent);
     }
 
