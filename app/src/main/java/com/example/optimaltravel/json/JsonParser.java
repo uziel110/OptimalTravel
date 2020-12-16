@@ -1,9 +1,19 @@
 package com.example.optimaltravel.json;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import org.json.JSONObject;
 
@@ -16,22 +26,24 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
 
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+
 public class JsonParser {
 
     @RequiresApi(api = Build.VERSION_CODES.R)
-    public static JSONObject getJson(List<String> wayPoints) throws IOException {
+    public static JSONObject getJson( List<String> wayPoints) throws IOException {
         //wayPoints=List.of("afula", "tel-aviv","afula");
         JSONObject json = null;
         String begin = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:";
         int size = wayPoints.size();
-        String origin = wayPoints.get(0)+"&";
-        String points = "destination=place_id:"+wayPoints.get(size-1)+"&waypoints=optimize:true";
-        for (int i = 1; i < size-1; ++i)
+        String origin = wayPoints.get(0) + "&";
+        String points = "destination=place_id:" + wayPoints.get(size - 1) + "&waypoints=optimize:true";
+        for (int i = 1; i < size - 1; ++i)
             points += "|place_id:" + wayPoints.get(i);
         String end = "&key=AIzaSyBUPxQMO2iI0DS_WTeetlcND9mpWaUCyyY";
         String link = begin + origin + points + end;
         InputStream is = new URL(link).openStream();
-       // InputStream is = new URL("https://maps.googleapis.com/maps/api/directions/json?origin=afula&destination=Tel-Aviv&key=AIzaSyBUPxQMO2iI0DS_WTeetlcND9mpWaUCyyY").openStream();
+        // InputStream is = new URL("https://maps.googleapis.com/maps/api/directions/json?origin=afula&destination=Tel-Aviv&key=AIzaSyBUPxQMO2iI0DS_WTeetlcND9mpWaUCyyY").openStream();
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             //Object[] ff = rd.lines().toArray();
@@ -40,14 +52,11 @@ public class JsonParser {
             String line = rd.readLine();
 
 
-
-            while (line!=null && !line.equals("   ],"))
-            {
-                jsonText+= line + "\n";
+            while (line != null && !line.equals("   ],")) {
+                jsonText += line + "\n";
                 line = rd.readLine();
             }
-            json = new JSONObject(jsonText+="]}");
-
+            json = new JSONObject(jsonText += "]}");
 
 
         } catch (Exception e) {
@@ -55,7 +64,7 @@ public class JsonParser {
         } finally {
             is.close();
         }
-    return json;
+        return json;
     }
 
     private static String readAll(Reader rd) throws IOException {
@@ -67,10 +76,10 @@ public class JsonParser {
         return sb.toString();
     }
 
-    private Location getCurrentLocation() {
-        return null;
-    }
+
 }
+
+
 //   LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 //
 //

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -17,8 +18,10 @@ import androidx.lifecycle.Observer;
 
 import com.example.optimaltravel.R;
 import com.example.optimaltravel.data.Route;
+import com.example.optimaltravel.json.JsonParser;
 import com.example.optimaltravel.json.PlaceConverter;
 import com.example.optimaltravel.repo.Repository;
+import com.example.optimaltravel.util.Utils;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -39,8 +42,8 @@ public class CreatePath extends AppCompatActivity {
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
     public static List<String> keysList = new LinkedList<String>();
     public static HashMap<String, LatLng> keyMap = new HashMap<String, LatLng>();
-    Repository repository= new Repository();
-    Route route =new Route();
+    Repository repository = new Repository();
+    Route route = new Route();
     ListView listView = null;
     @SuppressLint("ResourceType")
     ArrayAdapter<String> adapter;
@@ -48,7 +51,9 @@ public class CreatePath extends AppCompatActivity {
     Button bAddStop;
     HashMap<String, String> map;
     List<String> pointNamesList = new LinkedList<String>();
+    List<Double> currentLocation;
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @SuppressLint("ResourceType")
     @Override
     public void onCreate(Bundle saved) {
@@ -61,8 +66,8 @@ public class CreatePath extends AppCompatActivity {
         bCalculateRoutes = findViewById(R.id.bCalculateRoute);
         listView.setAdapter(adapter);
         map = new HashMap<String, String>();
-
-
+        currentLocation = Utils.getCurrentLocation(this);
+        //Toast.makeText(getBaseContext(), currentLocation.get(0) + " : " + currentLocation.get(1), Toast.LENGTH_LONG);
         // Set the fields to specify which types of place data to
         // return after the user has made a selection.
 
@@ -119,8 +124,8 @@ public class CreatePath extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     public void runParse(View view) throws IOException, JSONException {
-        if (pointNamesList.size() < 4) // Not need to optimize
-        {
+        Toast.makeText(getBaseContext(), currentLocation.get(0) + " : " + currentLocation.get(1), Toast.LENGTH_LONG);
+        if (pointNamesList.size() < 4) { // Not need to optimize
             return;
         }
         bCalculateRoutes.setEnabled(false);

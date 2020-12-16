@@ -17,7 +17,7 @@ public class PlaceConverter {
     public static MutableLiveData mld = new MutableLiveData<>();
 
     @RequiresApi(api = Build.VERSION_CODES.R)
-    public static void placesListFromJson(HashMap<String, String> map, List<String> list, List<String> keysList) throws JSONException, IOException {
+    public static void placesListFromJson( HashMap<String, String> map, List<String> list, List<String> keysList) throws JSONException, IOException {
         JSONObject jsonObject = JsonParser.getJson(keysList);
         JSONArray placesIDList = (JSONArray) jsonObject.get("geocoded_waypoints");
 
