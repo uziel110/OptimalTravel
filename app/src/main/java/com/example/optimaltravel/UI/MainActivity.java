@@ -1,6 +1,7 @@
 package com.example.optimaltravel.UI;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -18,11 +19,18 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
-
+    static SharedPreferences sharedPreferences;
+    String id = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
+        id =FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (id!=null)
+            if (sharedPreferences.getBoolean(id,false)){
+                startActivity(new Intent(this, CreatePath.class));
+            }
     }
 
     public void loginActivityLaunch(View view) {
@@ -31,16 +39,16 @@ public class MainActivity extends AppCompatActivity {
         //new AuthUI.IdpConfig.PhoneBuilder().setDefaultCountryIso("IL").build()
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build()
-                ,new AuthUI.IdpConfig.AnonymousBuilder().build()
+                , new AuthUI.IdpConfig.AnonymousBuilder().build()
 
 
-                );
+        );
 
 // Create and launch sign-in intent
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
-                        .setAvailableProviders(providers).setLogo(R.drawable.logo)                        .build(),
+                        .setAvailableProviders(providers).setLogo(R.drawable.logo).build(),
                 RC_SIGN_IN);
 
     }
@@ -55,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                id = user.getUid();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(id, true);
+                editor.commit();
                 startActivity(new Intent(this, CreatePath.class));
                 // ...
             } else {
