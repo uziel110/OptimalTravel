@@ -19,7 +19,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.OptimalTravel">
+
+        android:theme="@style/Theme.Design.NoActionBar">
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -42,6 +43,7 @@
 
         </activity>
         <activity android:name=".UI.CreatePath">
+            android:theme="@android:style/Theme.NoTitleBar">
 
         </activity>
         <activity android:name=".UI.MainActivity">

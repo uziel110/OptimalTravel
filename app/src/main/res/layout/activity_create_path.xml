@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,57 +17,74 @@
         android:layout_height="400dp"
         android:background="@color/quantum_brown100"
         android:cacheColorHint="@color/purple_700"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:layout_editor_absoluteX="94dp" />
+
+        app:layout_constraintBottom_toTopOf="@+id/bAddStop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8"
+        tools:layout_editor_absoluteX="0dp">
+
+    </ListView>
 
     <Button
         android:id="@+id/bAddStop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+
         android:ems="10"
         android:onClick="googleAutoComplete"
         android:text="@string/stopText"
+        android:textSize="20dp"
         app:backgroundTint="@color/quantum_bluegrey900"
-        tools:layout_editor_absoluteX="97dp"
-        tools:layout_editor_absoluteY="79dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.644" />
 
-    <GridLayout
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:background="@android:color/darker_gray"
-        android:columnCount="2"
-        tools:context=".UI.CreatePath">
-        <Button
-            android:id="@+id/bCalculateRoute"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:layout_marginRight="25dp"
-            android:onClick="runParse"
-            android:text="@string/calculateText"
-            android:textColorHint="#FFFFFF"
-
-            app:backgroundTint="@color/quantum_googgreen700" />
-
-        <Button
-            android:id="@+id/btShowMap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|bottom"
-            android:layout_marginLeft="25dp"
-            android:onClick="OpenInGooleMaps"
-            android:text="@string/pointInMap"
-            app:backgroundTint="@color/quantum_bluegrey900" />
-    </GridLayout>
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="145dp"
+        android:layout_marginBottom="88dp"
+        android:foregroundGravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bAddStop"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ad" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/bCalculateRoute"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="OpenInGooleMaps"
-        android:text="Button" />
+        android:gravity="center_horizontal"
+        android:onClick="runParse"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:text="@string/calculateText"
+        android:textColorHint="#FFFFFF"
+        android:textSize="20dp"
+        app:backgroundTint="@color/quantum_googgreen700"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="יעדים"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="7dp" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
