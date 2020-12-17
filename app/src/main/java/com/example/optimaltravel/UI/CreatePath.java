@@ -3,6 +3,7 @@ package com.example.optimaltravel.UI;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
@@ -36,6 +37,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONException;
 
@@ -230,4 +232,10 @@ public class CreatePath extends AppCompatActivity {
     }
 
 
+    public void logOut(View view) {
+        SharedPreferences.Editor editor = MainActivity.sharedPreferences.edit();
+        editor.putBoolean(FirebaseAuth.getInstance().getUid(),false);
+        editor.commit();
+        finish();
+    }
 }
