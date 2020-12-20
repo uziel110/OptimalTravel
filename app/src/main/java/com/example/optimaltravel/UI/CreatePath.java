@@ -53,6 +53,7 @@ public class CreatePath extends AppCompatActivity {
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
     Repository repository = new Repository();
     Route route = new Route();
+    private  boolean removed;
 
     ListView listView = null;
     @SuppressLint("ResourceType")
@@ -81,27 +82,15 @@ public class CreatePath extends AppCompatActivity {
         map = new HashMap<String, String>();
         currentLocation = getCurrentLocation();
         Toast.makeText(getBaseContext(), currentLocation.get(0) + " : " + currentLocation.get(1), Toast.LENGTH_LONG);
-        // Set the fields to specify which types of place data to
-        // return after the user has made a selection.t
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position,
-//                                    long id) {
-//                Log.i("click", "Click on list");
-//                // setup the alert builder
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-//                builder.setTitle("AlertDialog");
-//                builder.setMessage("Would you like to continue learning how to use Android alerts?");
-//                // add the buttons
-//                builder.setPositiveButton("Continue", null);
-//                builder.setNegativeButton("Cancel", null);
-//                // create and show the alert dialog
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
-//            }
-//
-//        }
-//    );
+        // Remove stop-point
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                pointNamesList.remove(position);
+                adapter.notifyDataSetChanged();
+                return true;
+            }
+        });
 
 
     adapter =new ArrayAdapter<String>(this,
