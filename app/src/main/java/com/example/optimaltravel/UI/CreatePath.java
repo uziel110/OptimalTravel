@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -53,15 +51,16 @@ public class CreatePath extends AppCompatActivity {
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
     Repository repository = new Repository();
     Route route = new Route();
+    Intent browserIntent;
     ListView listView = null;
     @SuppressLint("ResourceType")
     ArrayAdapter<String> adapter;
     Button bCalculateRoutes;
     Button bAddStop;
-    Button bShowMap;
     HashMap<String, String> map;
     List<String> pointNamesList = new LinkedList<String>();
-    List<Double> currentLocation=new LinkedList<Double>();
+    List<Double> currentLocation = new LinkedList<Double>();
+    StringBuilder currentPlaceID = new StringBuilder();
     private SharedPreferences sharedPreferences;
     private boolean removed;
 
@@ -106,7 +105,10 @@ public class CreatePath extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
                 route.setPoint(pointNamesList);
                 repository.insertRoute(route);
-                OpenInGoogleMaps();
+                browserIntent = Utils.OpenInGoogleMaps(currentPlaceID, keysList);
+                if (browserIntent != null) {
+                    startActivity(browserIntent);
+                }
             }
         });
     }
@@ -170,7 +172,7 @@ public class CreatePath extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     public void runParse(View view) throws IOException, JSONException {
-        if (pointNamesList.size() ==0) { // No stop points
+        if (pointNamesList.size() == 0) { // No stop points
             return;
         }
         bCalculateRoutes.setEnabled(false);
@@ -178,7 +180,7 @@ public class CreatePath extends AppCompatActivity {
         new Thread() {
             public void run() {
                 try {
-                    PlaceConverter.placesListFromJson(map,currentLocation, pointNamesList, keysList);
+                    PlaceConverter.placesListFromJson(map, currentPlaceID, currentLocation, pointNamesList, keysList);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -200,31 +202,31 @@ public class CreatePath extends AppCompatActivity {
         keysList.clear();
     }
 
-    public void OpenInGoogleMaps() {
-        // https://www.google.com/maps/dir/?api=1&origin=Afula&origin_place_id=ChIJ-zbFi8NTHBURSwqqD4dNEuM&destination=tel+aviv&destination_place_id=ChIJH3w7GaZMHRURkD-WwKJy-8E&waypoints=b|a|a&waypoint_place_ids=ChIJ1XXAkwRAHRURIj88VL6V2Sw|adasdasassad|dasdasdsad
-        if (keysList.size() == 0)
-            return;
-        String origin = "https://www.google.com/maps/dir/?api=1&origin=GPS&origin_place_id=" + keysList.get(0) + "&destination=GPS&destination_place_id=" + keysList.get(0);
-        String wayP = "&waypoints=";
-        String wayPid = "&waypoint_place_ids=";
-
-        for (int i = 1; i < keysList.size(); ++i) {
-            wayP += "wp";
-            wayPid +=""+ keysList.get(i);
-            if (i<keysList.size()-1){
-                wayP+="|";
-                wayPid+="|";
-            }
-        }
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(origin + wayP +wayPid+ "&travelmode=driving"));
-        startActivity(browserIntent);
-    }
-
-
     public void logOut(View view) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(FirebaseAuth.getInstance().getUid(), false);
         editor.apply();
         finish();
     }
+    // This function has been passed to the Util class
+//    public void OpenInGoogleMaps() {
+//        // https://www.google.com/maps/dir/?api=1&origin=Afula&origin_place_id=ChIJ-zbFi8NTHBURSwqqD4dNEuM&destination=tel+aviv&destination_place_id=ChIJH3w7GaZMHRURkD-WwKJy-8E&waypoints=b|a|a&waypoint_place_ids=ChIJ1XXAkwRAHRURIj88VL6V2Sw|adasdasassad|dasdasdsad
+//        if (keysList.size() == 0)
+//            return;
+//        String origin = "https://www.google.com/maps/dir/?api=1&origin=GPS&origin_place_id=" + keysList.get(0) + "&destination=GPS&destination_place_id=" + keysList.get(0);
+//        String wayP = "&waypoints=";
+//        String wayPid = "&waypoint_place_ids=";
+//
+//        for (int i = 1; i < keysList.size(); ++i) {
+//            wayP += "wp";
+//            wayPid +=""+ keysList.get(i);
+//            if (i<keysList.size()-1){
+//                wayP+="|";
+//                wayPid+="|";
+//            }
+//        }
+//        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(origin + wayP +wayPid+ "&travelmode=driving"));
+//        startActivity(browserIntent);
+//    }
+
 }

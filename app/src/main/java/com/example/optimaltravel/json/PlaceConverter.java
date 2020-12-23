@@ -1,6 +1,7 @@
 package com.example.optimaltravel.json;
 
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
@@ -17,22 +18,24 @@ public class PlaceConverter {
     public static MutableLiveData mld = new MutableLiveData<>();
 
     @RequiresApi(api = Build.VERSION_CODES.R)
-    public static void placesListFromJson(HashMap<String, String> map, List<Double>currentLocation, List<String> namesList, List<String> keysList) throws JSONException, IOException {
+    public static void placesListFromJson(HashMap<String, String> map, StringBuilder currentPlaceID, List<Double> currentLocation, List<String> namesList, List<String> keysList) throws JSONException, IOException {
         JSONObject jsonObject = JsonParser.getJson(currentLocation, keysList);
         JSONArray placesIDList = (JSONArray) jsonObject.get("geocoded_waypoints");
         int len = placesIDList.length();
+        JSONObject record;
+        String place;
         for (int i = 0; i < len - 1; ++i) {
-            JSONObject record = placesIDList.getJSONObject(i);
-            String place = record.getString("place_id");
+            record = placesIDList.getJSONObject(i);
+            place = record.getString("place_id");
             if (i == 0) {
-                keysList.add(i, place);
+                currentPlaceID.setLength(0);
+                currentPlaceID.append(place);
+                Log.i("SB", currentPlaceID.toString());
             } else {
-                namesList.set(i-1, map.get(place));
-                keysList.set(i, place);
+                namesList.set(i - 1, map.get(place));
+                keysList.set(i - 1, place);
             }
         }
         mld.postValue(true);
-
-        // return list;
     }
 }
