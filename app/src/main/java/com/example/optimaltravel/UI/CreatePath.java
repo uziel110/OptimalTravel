@@ -82,7 +82,6 @@ public class CreatePath extends AppCompatActivity {
         listView.setAdapter(adapter);
         map = new HashMap<String, String>();
         getCurrentLocation();
-        //Toast.makeText(getBaseContext(), currentLocation.get(0) + " : " + currentLocation.get(1), Toast.LENGTH_LONG);
         // Remove stop-point
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -127,7 +126,6 @@ public class CreatePath extends AppCompatActivity {
                                 if (location != null) {
                                     currentLocation.add(location.getLatitude());
                                     currentLocation.add(location.getLongitude());
-                                    //Toast.makeText(activity.getBaseContext(), lat + " , " + longt, Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
@@ -172,7 +170,7 @@ public class CreatePath extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     public void runParse(View view) throws IOException, JSONException {
-        if (pointNamesList.size() < 2) { // Not need to optimize
+        if (pointNamesList.size() ==0) { // No stop points
             return;
         }
         bCalculateRoutes.setEnabled(false);
