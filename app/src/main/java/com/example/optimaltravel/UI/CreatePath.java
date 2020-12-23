@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
@@ -51,11 +50,8 @@ public class CreatePath extends AppCompatActivity {
     public static List<String> keysList = new LinkedList<String>();
     public static HashMap<String, LatLng> keyMap = new HashMap<String, LatLng>();
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
-    private SharedPreferences sharedPreferences;
     Repository repository = new Repository();
     Route route = new Route();
-    private  boolean removed;
-
     ListView listView = null;
     @SuppressLint("ResourceType")
     ArrayAdapter<String> adapter;
@@ -65,6 +61,8 @@ public class CreatePath extends AppCompatActivity {
     HashMap<String, String> map;
     List<String> pointNamesList = new LinkedList<String>();
     List<Double> currentLocation;
+    private SharedPreferences sharedPreferences;
+    private boolean removed;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @SuppressLint("ResourceType")
@@ -95,25 +93,23 @@ public class CreatePath extends AppCompatActivity {
         });
 
 
-    adapter =new ArrayAdapter<String>(this,
-    android.R.layout.simple_list_item_1,pointNamesList);
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, pointNamesList);
 
-    ListView listView = (ListView) findViewById(R.id.lvAddress);
+        ListView listView = (ListView) findViewById(R.id.lvAddress);
         listView.setAdapter(adapter);
-        PlaceConverter.mld.observe(this,new Observer<Boolean>()
-
-    {
-        @Override
-        public void onChanged (Boolean isEnable){
-        bAddStop.setEnabled(true);
-        bCalculateRoutes.setEnabled(true);
-        adapter.notifyDataSetChanged();
-        route.setPoint(pointNamesList);
-        repository.insertRoute(route);
-        OpenInGooleMaps();
+        PlaceConverter.mld.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isEnable) {
+                bAddStop.setEnabled(true);
+                bCalculateRoutes.setEnabled(true);
+                adapter.notifyDataSetChanged();
+                route.setPoint(pointNamesList);
+                repository.insertRoute(route);
+                OpenInGoogleMaps();
+            }
+        });
     }
-    });
-}
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @SuppressLint("RestrictedApi")
@@ -150,7 +146,7 @@ public class CreatePath extends AppCompatActivity {
         List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
         // Start the autocomplete intent.
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
-                .build(this).;
+                .build(this);
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
     }
 
@@ -209,7 +205,7 @@ public class CreatePath extends AppCompatActivity {
         keysList.clear();
     }
 
-    public void OpenInGooleMaps() {
+    public void OpenInGoogleMaps() {
        // https://www.google.com/maps/dir/?api=1&origin=Afula&origin_place_id=ChIJ-zbFi8NTHBURSwqqD4dNEuM&destination=tel+aviv&destination_place_id=ChIJH3w7GaZMHRURkD-WwKJy-8E
         if (pointNamesList.size() == 0)
             return;
