@@ -150,7 +150,7 @@ public class CreatePath extends AppCompatActivity {
         List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG);
         // Start the autocomplete intent.
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
-                .build(this);
+                .build(this).;
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
     }
 
@@ -210,7 +210,7 @@ public class CreatePath extends AppCompatActivity {
     }
 
     public void OpenInGooleMaps() {
-        // Space+Needle+Seattle+WAPike+Place+Market+Seattle+WA&travelmode=bicycling"
+       // https://www.google.com/maps/dir/?api=1&origin=Afula&origin_place_id=ChIJ-zbFi8NTHBURSwqqD4dNEuM&destination=tel+aviv&destination_place_id=ChIJH3w7GaZMHRURkD-WwKJy-8E
         if (pointNamesList.size() == 0)
             return;
         String origin = "https://www.google.com/maps/dir/?api=1&origin=" + pointNamesList.get(0) + "&destination=" + pointNamesList.get(0);
