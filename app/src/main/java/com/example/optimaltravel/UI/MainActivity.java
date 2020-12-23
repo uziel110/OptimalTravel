@@ -26,11 +26,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
-        id =FirebaseAuth.getInstance().getCurrentUser().getUid();
-        if (FirebaseAuth.getInstance().getCurrentUser()!=null)
-            if (sharedPreferences.getBoolean(id,false)){
+        if (FirebaseAuth.getInstance().getCurrentUser()!=null) {
+            id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            if (sharedPreferences.getBoolean(id, false)) {
                 startActivity(new Intent(this, CreatePath.class));
             }
+        }
     }
 
     public void loginActivityLaunch(View view) {
