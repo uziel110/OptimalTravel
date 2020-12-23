@@ -208,25 +208,5 @@ public class CreatePath extends AppCompatActivity {
         editor.apply();
         finish();
     }
-    // This function has been passed to the Util class
-//    public void OpenInGoogleMaps() {
-//        // https://www.google.com/maps/dir/?api=1&origin=Afula&origin_place_id=ChIJ-zbFi8NTHBURSwqqD4dNEuM&destination=tel+aviv&destination_place_id=ChIJH3w7GaZMHRURkD-WwKJy-8E&waypoints=b|a|a&waypoint_place_ids=ChIJ1XXAkwRAHRURIj88VL6V2Sw|adasdasassad|dasdasdsad
-//        if (keysList.size() == 0)
-//            return;
-//        String origin = "https://www.google.com/maps/dir/?api=1&origin=GPS&origin_place_id=" + keysList.get(0) + "&destination=GPS&destination_place_id=" + keysList.get(0);
-//        String wayP = "&waypoints=";
-//        String wayPid = "&waypoint_place_ids=";
-//
-//        for (int i = 1; i < keysList.size(); ++i) {
-//            wayP += "wp";
-//            wayPid +=""+ keysList.get(i);
-//            if (i<keysList.size()-1){
-//                wayP+="|";
-//                wayPid+="|";
-//            }
-//        }
-//        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(origin + wayP +wayPid+ "&travelmode=driving"));
-//        startActivity(browserIntent);
-//    }
 
 }
