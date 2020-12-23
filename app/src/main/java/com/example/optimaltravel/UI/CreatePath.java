@@ -51,6 +51,7 @@ public class CreatePath extends AppCompatActivity {
     public static List<String> keysList = new LinkedList<String>();
     public static HashMap<String, LatLng> keyMap = new HashMap<String, LatLng>();
     private static int AUTOCOMPLETE_REQUEST_CODE = 1;
+    private SharedPreferences sharedPreferences;
     Repository repository = new Repository();
     Route route = new Route();
     private  boolean removed;
@@ -72,6 +73,7 @@ public class CreatePath extends AppCompatActivity {
         super.onCreate(saved);
 
         setContentView(R.layout.activity_create_path);
+        sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
         this.setFinishOnTouchOutside(false);
         listView = (ListView) findViewById(R.id.lvAddress);
         adapter = new ArrayAdapter<String>(this, R.id.lvAddress, pointNamesList);
@@ -222,9 +224,9 @@ public class CreatePath extends AppCompatActivity {
 
 
     public void logOut(View view) {
-        SharedPreferences.Editor editor = MainActivity.sharedPreferences.edit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(FirebaseAuth.getInstance().getUid(),false);
-        editor.commit();
+        editor.apply();
         finish();
     }
 }

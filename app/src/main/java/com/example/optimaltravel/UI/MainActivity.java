@@ -19,7 +19,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
-    static SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
     String id = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 id = user.getUid();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(id, true);
-                editor.commit();
+                editor.apply();
                 startActivity(new Intent(this, CreatePath.class));
                 // ...
             } else {
