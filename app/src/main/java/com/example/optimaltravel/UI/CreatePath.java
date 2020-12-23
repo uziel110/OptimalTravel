@@ -26,6 +26,7 @@ import com.example.optimaltravel.R;
 import com.example.optimaltravel.data.Route;
 import com.example.optimaltravel.json.PlaceConverter;
 import com.example.optimaltravel.repo.Repository;
+import com.example.optimaltravel.util.Utils;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -60,7 +61,7 @@ public class CreatePath extends AppCompatActivity {
     Button bShowMap;
     HashMap<String, String> map;
     List<String> pointNamesList = new LinkedList<String>();
-    List<Double> currentLocation;
+    List<Double> currentLocation=new LinkedList<Double>();
     private SharedPreferences sharedPreferences;
     private boolean removed;
 
@@ -80,8 +81,8 @@ public class CreatePath extends AppCompatActivity {
         // bShowMap = findViewById(R.id.btShowMap);
         listView.setAdapter(adapter);
         map = new HashMap<String, String>();
-        currentLocation = getCurrentLocation();
-        Toast.makeText(getBaseContext(), currentLocation.get(0) + " : " + currentLocation.get(1), Toast.LENGTH_LONG);
+        getCurrentLocation();
+        //Toast.makeText(getBaseContext(), currentLocation.get(0) + " : " + currentLocation.get(1), Toast.LENGTH_LONG);
         // Remove stop-point
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -113,10 +114,8 @@ public class CreatePath extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @SuppressLint("RestrictedApi")
-    public List<Double> getCurrentLocation() {
+    public void getCurrentLocation() {
         FusedLocationProviderClient fusedLocationProviderClient;
-        final double[] lat = new double[1];
-        final double[] longt = new double[1];
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -126,8 +125,8 @@ public class CreatePath extends AppCompatActivity {
                             @Override
                             public void onSuccess(Location location) {
                                 if (location != null) {
-                                    lat[0] = location.getLatitude();
-                                    longt[0] = location.getLongitude();
+                                    currentLocation.add(location.getLatitude());
+                                    currentLocation.add(location.getLongitude());
                                     //Toast.makeText(activity.getBaseContext(), lat + " , " + longt, Toast.LENGTH_LONG).show();
                                 }
                             }
@@ -136,8 +135,6 @@ public class CreatePath extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 5);
             }
         }
-
-        return List.of(lat[0], longt[0]);
     }
 
     public void googleAutoComplete(View view) {
@@ -175,7 +172,7 @@ public class CreatePath extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     public void runParse(View view) throws IOException, JSONException {
-        if (pointNamesList.size() < 3) { // Not need to optimize
+        if (pointNamesList.size() < 2) { // Not need to optimize
             return;
         }
         bCalculateRoutes.setEnabled(false);
@@ -183,7 +180,7 @@ public class CreatePath extends AppCompatActivity {
         new Thread() {
             public void run() {
                 try {
-                    PlaceConverter.placesListFromJson(map, pointNamesList, keysList);
+                    PlaceConverter.placesListFromJson(map,currentLocation, pointNamesList, keysList);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

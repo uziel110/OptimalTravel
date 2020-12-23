@@ -31,13 +31,13 @@ import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 public class JsonParser {
 
     @RequiresApi(api = Build.VERSION_CODES.R)
-    public static JSONObject getJson( List<String> wayPoints) throws IOException {
+    public static JSONObject getJson(List<Double> currentLocation, List<String> wayPoints) throws IOException {
         JSONObject json = null;
-        String begin = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:";
+        String begin = "https://maps.googleapis.com/maps/api/directions/json?origin=";
         int size = wayPoints.size();
-        String origin = wayPoints.get(0) + "&";
-        String points = "destination=place_id:" +origin + "waypoints=optimize:true";
-        for (int i = 1; i < size; ++i)
+        String origin = currentLocation.get(0)+","+currentLocation.get(1) + "&";
+        String points = "destination=" +origin + "waypoints=optimize:true";
+        for (int i = 0; i < size; ++i)
             points += "|place_id:" + wayPoints.get(i);
         String end = "&key=AIzaSyBUPxQMO2iI0DS_WTeetlcND9mpWaUCyyY";
         String link = begin + origin + points + end;
