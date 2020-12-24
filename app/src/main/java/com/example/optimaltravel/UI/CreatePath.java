@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +25,6 @@ import com.example.optimaltravel.R;
 import com.example.optimaltravel.data.Route;
 import com.example.optimaltravel.json.PlaceConverter;
 import com.example.optimaltravel.repo.Repository;
-import com.example.optimaltravel.util.Utils;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -105,10 +105,7 @@ public class CreatePath extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
                 route.setPoint(pointNamesList);
                 repository.insertRoute(route);
-                browserIntent = Utils.OpenInGoogleMaps(currentPlaceID, keysList);
-                if (browserIntent != null) {
-                    startActivity(browserIntent);
-                }
+                OpenInGoogleMaps();
             }
         });
     }
@@ -193,6 +190,25 @@ public class CreatePath extends AppCompatActivity {
 
     public void btShowMapClick(View view) {
         startActivity(new Intent(this, MapsActivity.class));
+    }
+
+    public void OpenInGoogleMaps() {
+        // https://www.google.com/maps/dir/?api=1&origin=Afula&origin_place_id=ChIJ-zbFi8NTHBURSwqqD4dNEuM&destination=tel+aviv&destination_place_id=ChIJH3w7GaZMHRURkD-WwKJy-8E&waypoints=b|a|a&waypoint_place_ids=ChIJ1XXAkwRAHRURIj88VL6V2Sw|adasdasassad|dasdasdsad
+        if (keysList.size() == 0)
+            return;
+        String origin = "https://www.google.com/maps/dir/?api=1&origin=GPS&origin_place_id=" + currentPlaceID.toString() + "&destination=GPS&destination_place_id=" + currentPlaceID.toString();
+        String wayP = "&waypoints=";
+        String wayPid = "&waypoint_place_ids=";
+
+        for (int i = 0; i < keysList.size(); ++i) {
+            wayP += "wp";
+            wayPid += "" + keysList.get(i);
+            if (i < keysList.size() - 1) { //if is not the last stop
+                wayP += "|";
+                wayPid += "|";
+            }
+        }
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(origin + wayP + wayPid + "&travelmode=driving")));
     }
 
     @Override
